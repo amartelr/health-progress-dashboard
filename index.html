@@ -172,7 +172,27 @@
 
             <!-- Hematology Tab -->
             <div id="hematology" class="tab-pane">
-                <div class="glass-card chart-box">
+                <div class="stat-grid">
+                    <div class="glass-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Ferritina</span>
+                            <span class="info-trigger"
+                                data-tippy="Marcador de depósitos de hierro e inflamación. Elevado en fase aguda.">i</span>
+                        </div>
+                        <div class="stat-value">380</div>
+                        <div class="stat-trend trend-down">Normalizándose</div>
+                    </div>
+                    <div class="glass-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Hemoglobina</span>
+                            <span class="info-trigger"
+                                data-tippy="Proteína en glóbulos rojos. Rango saludable: 13.5-17.5 g/dL.">i</span>
+                        </div>
+                        <div class="stat-value">16.5</div>
+                        <div class="stat-trend trend-stable">Estable</div>
+                    </div>
+                </div>
+                <div class="glass-card chart-box" style="margin-top: 2rem;">
                     <div class="chart-header">
                         <h2>Ferritina y Marcadores Inflamatorios</h2>
                         <p style="color: var(--text-muted); font-size: 0.9rem;">Respuesta de fase aguda y evolución

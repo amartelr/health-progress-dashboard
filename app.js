@@ -114,7 +114,9 @@ function createLiverChart() {
 }
 
 function createLipidChart() {
-    const ctx = document.getElementById('lipidChart').getContext('2d');
+    const canvas = document.getElementById('lipidChart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
     if (activeCharts.lipids) activeCharts.lipids.destroy();
 
     activeCharts.lipids = new Chart(ctx, {
@@ -126,15 +128,13 @@ function createLipidChart() {
                     label: 'Colesterol Total',
                     data: lipidData.col,
                     backgroundColor: '#8b5cf6',
-                    borderRadius: 8,
-                    barThickness: 15
+                    borderRadius: 6
                 },
                 {
                     label: 'Triglicéridos',
                     data: lipidData.tri,
                     backgroundColor: '#00f5ff',
-                    borderRadius: 8,
-                    barThickness: 15
+                    borderRadius: 6
                 }
             ]
         },
@@ -142,14 +142,16 @@ function createLipidChart() {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
+                legend: { position: 'top', labels: { boxWidth: 12, padding: 20 } },
                 tooltip: {
+                    backgroundColor: '#1e1e2d',
                     callbacks: {
                         label: (c) => `${c.dataset.label}: ${c.raw} mg/dL (Ideal: < 200)`
                     }
                 }
             },
             scales: {
-                y: { grid: { borderDash: [5, 5] } },
+                y: { grid: { color: 'rgba(255,255,255,0.05)', borderDash: [5, 5] } },
                 x: { grid: { display: false } }
             }
         }
@@ -157,7 +159,9 @@ function createLipidChart() {
 }
 
 function createHemChart() {
-    const ctx = document.getElementById('hemChart').getContext('2d');
+    const canvas = document.getElementById('hemChart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
     if (activeCharts.hem) activeCharts.hem.destroy();
 
     activeCharts.hem = new Chart(ctx, {
@@ -172,19 +176,25 @@ function createHemChart() {
                     borderWidth: 3,
                     tension: 0.4,
                     fill: false,
-                    yAxisID: 'y'
+                    pointRadius: 4
                 }
             ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: { backgroundColor: '#1e1e2d' }
+            },
             scales: {
-                y: { grid: { borderDash: [5, 5] } },
+                y: { grid: { color: 'rgba(255,255,255,0.05)', borderDash: [5, 5] } },
                 x: { grid: { display: false } }
             }
         }
     });
 }
 
-window.onload = () => initCharts('liver');
+window.onload = () => {
+    initCharts('liver');
+};
