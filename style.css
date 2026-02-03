@@ -1,205 +1,283 @@
 :root {
-    --bg-light: #f8fafc;
-    --card-bg: rgba(255, 255, 255, 0.8);
-    --primary: #2563eb;
-    --primary-light: #dbeafe;
-    --secondary: #64748b;
-    --danger: #ef4444;
-    --success: #22c55e;
-    --warning: #f59e0b;
-    --text-dark: #1e293b;
+    --bg-deep: #0d0d12;
+    --sidebar-bg: #14141b;
+    --glass-card: rgba(23, 23, 33, 0.7);
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --accent-purple: #8b5cf6;
+    --accent-purple-glow: rgba(139, 92, 246, 0.5);
+    --accent-cyan: #00f5ff;
+    --text-primary: #ffffff;
+    --text-secondary: #94a3b8;
     --text-muted: #64748b;
-    --border: rgba(226, 232, 240, 0.8);
-    --glass-blur: blur(10px);
+    --glass-blur: blur(16px);
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Outfit', 'Inter', sans-serif;
 }
 
 body {
-    background-color: var(--bg-light);
-    color: var(--text-dark);
+    background-color: var(--bg-deep);
+    color: var(--text-primary);
     min-height: 100vh;
-    padding: 2rem;
+    overflow-x: hidden;
     background-image:
-        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.05) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(37, 99, 235, 0.05) 0px, transparent 50%);
+        radial-gradient(circle at 10% 10%, rgba(139, 92, 246, 0.05), transparent 30%),
+        radial-gradient(circle at 90% 90%, rgba(0, 245, 255, 0.05), transparent 30%);
 }
 
-.dashboard {
-    max-width: 1400px;
-    margin: 0 auto;
+.app-wrapper {
     display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 2rem;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
 }
 
-/* Sidebar */
+/* Sidebar Styling */
 .sidebar {
-    background: var(--card-bg);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 2rem;
-    height: fit-content;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--border-glass);
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     position: sticky;
-    top: 2rem;
+    top: 0;
+    height: 100vh;
 }
 
-.logo {
-    font-weight: 800;
-    font-size: 1.5rem;
-    color: var(--primary);
+.brand {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 2.5rem;
+    gap: 12px;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
 }
 
-.patient-info {
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid var(--border);
+.brand-icon {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.patient-info h3 {
-    font-size: 0.9rem;
-    color: var(--text-muted);
+.nav-section h3 {
+    font-size: 0.75rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
 }
 
-.patient-info p {
-    font-weight: 600;
-}
-
-.nav-menu {
+.nav-links {
     list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .nav-item {
-    padding: 0.75rem 1rem;
+    padding: 0.8rem 1rem;
     border-radius: 12px;
     cursor: pointer;
-    transition: all 0.2s;
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 12px;
     font-weight: 500;
 }
 
 .nav-item:hover,
 .nav-item.active {
-    background: var(--primary-light);
-    color: var(--primary);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
 }
 
-/* Main Content */
+.nav-item.active {
+    background: rgba(139, 92, 246, 0.1);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+}
+
+/* Main Content area */
 .main-content {
+    padding: 2rem 3rem;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
 }
 
-.header-row {
+.header-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.status-grid {
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--glass-card);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 1px solid var(--border-glass);
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--accent-purple);
+}
+
+/* Layout Grids */
+.hero-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
 }
 
-.stat-card {
-    background: var(--card-bg);
+.glass-card {
+    background: var(--glass-card);
     backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--border-glass);
+    border-radius: 24px;
+    padding: 1.8rem;
+    position: relative;
+    overflow: hidden;
+    transition: border 0.3s;
+}
+
+.glass-card:hover {
+    border-color: rgba(139, 92, 246, 0.3);
+}
+
+.glass-card.hero {
+    background: linear-gradient(145deg, rgba(23, 23, 33, 0.9), rgba(139, 92, 246, 0.05));
+}
+
+/* Statistics components */
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
 }
 
 .stat-label {
-    font-size: 0.875rem;
-    color: var(--text-muted);
-    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
 }
 
 .stat-value {
-    font-size: 1.5rem;
+    font-size: 2.2rem;
     font-weight: 700;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.5rem;
 }
 
-.stat-trend {
+.stat-chart-mini {
+    height: 40px;
+    width: 100%;
+}
+
+.tag {
+    background: rgba(139, 92, 246, 0.1);
+    color: var(--accent-purple);
+    padding: 4px 12px;
+    border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 600;
 }
 
-.trend-up {
-    color: var(--danger);
+/* Large Visualization Section */
+.viz-section {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
 }
 
-.trend-down {
-    color: var(--success);
+.chart-main-container {
+    height: 450px;
 }
 
-.trend-stable {
-    color: var(--primary);
+/* Secondary Panels */
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
-/* Chart Container */
-.chart-container {
-    background: var(--card-bg);
-    backdrop-filter: var(--glass-blur);
-    border: 1px solid var(--border);
+.portfolio-card {
+    background: linear-gradient(135deg, #1e1b4b, #4c1d95);
     border-radius: 24px;
     padding: 2rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    color: white;
 }
 
-.chart-header {
-    margin-bottom: 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+.btn-primary {
+    background: var(--accent-purple);
+    color: white;
+    border: none;
+    padding: 1rem;
+    border-radius: 12px;
+    width: 100%;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.chart-title h2 {
-    font-size: 1.125rem;
-    font-weight: 700;
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px var(--accent-purple-glow);
 }
 
-.chart-title p {
-    font-size: 0.875rem;
-    color: var(--text-muted);
+/* Responsive UI tweaks */
+@media (max-width: 1200px) {
+    .app-wrapper {
+        grid-template-columns: 80px 1fr;
+    }
+
+    .brand span,
+    .nav-item span {
+        display: none;
+    }
+
+    .hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .viz-section {
+        grid-template-columns: 1fr;
+    }
 }
 
-canvas {
-    width: 100% !important;
-    height: 400px !important;
-}
-
-.grid-2 {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-}
-
-/* Tab Management */
+/* Interactive Tabs */
 .tab-content {
     display: none;
+    animation: slideUp 0.4s ease-out;
 }
 
 .tab-content.active {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
