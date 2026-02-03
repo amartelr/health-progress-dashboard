@@ -4,153 +4,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HealthProgress - Alfredo Martel Revuelta</title>
+    <title>HealthProgress Premium - Clinical Dashboard</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-    <div class="dashboard">
-        <!-- Sidebar -->
+    <div class="dashboard-layout">
+        <!-- Persistent Sidebar -->
         <aside class="sidebar">
-            <div class="logo">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-                        stroke="currentColor" stroke-width="2" />
-                    <path d="M12 7V17M7 12H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                </svg>
-                HealthProgress
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+                        <path d="M12 21L3 12L12 3L21 12L12 21Z" />
+                    </svg>
+                </div>
+                <span>HealthProgress</span>
             </div>
 
-            <div class="patient-info">
-                <h3>Paciente</h3>
-                <p>Alfredo Martel Revuelta</p>
-                <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 400;">ID: AM-1967-07</p>
-            </div>
+            <nav class="nav-group">
+                <h3>Vistas Médicas</h3>
+                <ul class="nav-list">
+                    <li class="nav-item active" onclick="switchTab('liver')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                        </svg>
+                        <span>Función Hepática</span>
+                    </li>
+                    <li class="nav-item" onclick="switchTab('lipids')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                            <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                        </svg>
+                        <span>Perfil Lipídico</span>
+                    </li>
+                    <li class="nav-item" onclick="switchTab('hematology')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M10 2v20M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                        </svg>
+                        <span>Hematología</span>
+                    </li>
+                    <li class="nav-item" onclick="switchTab('vitals')">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+                        </svg>
+                        <span>Vitals & Meds</span>
+                    </li>
+                </ul>
+            </nav>
 
-            <ul class="nav-menu">
-                <li class="nav-item active" onclick="switchTab('liver')">Función Hepática</li>
-                <li class="nav-item" onclick="switchTab('lipids')">Perfil Lipídico</li>
-                <li class="nav-item" onclick="switchTab('hematology')">Hematología</li>
-                <li class="nav-item" onclick="switchTab('vitals')">Vitals & Meds</li>
-            </ul>
+            <div style="margin-top: auto;">
+                <div class="nav-item">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                    </svg>
+                    <span>Ajustes</span>
+                </div>
+            </div>
         </aside>
 
         <!-- Main Content -->
         <main class="main-content">
-            <div class="header-row">
-                <h1>Analytics Dashboard</h1>
-                <div style="font-size: 0.875rem; color: var(--text-muted);">
-                    Última actualización: 04/12/2025
+            <header class="top-bar">
+                <div>
+                    <h1 style="font-size: 1.8rem; font-weight: 800;">Analytics Dashboard</h1>
+                    <p style="color: var(--text-muted); font-size: 0.9rem;">Última actualización: Diciembre 2025</p>
                 </div>
-            </div>
+                <div class="patient-badge">
+                    <div class="avatar-circle"></div>
+                    <div>
+                        <p style="font-weight: 700; font-size: 0.95rem;">Alfredo Martel</p>
+                        <p style="color: var(--text-muted); font-size: 0.75rem;">AM-1967-07</p>
+                    </div>
+                </div>
+            </header>
 
             <!-- Liver Tab -->
-            <div id="liver" class="tab-content active">
-                <div class="status-grid">
-                    <div class="stat-card">
-                        <div class="stat-label">AST (GOT) <span class="info-icon"
-                                data-tooltip="Enzima hepática. Rango saludable: 10-40 U/L. Valores altos pueden indicar estrés hepático.">i</span>
+            <div id="liver" class="tab-pane active">
+                <div class="stat-grid">
+                    <div class="glass-card" style="position: relative;">
+                        <div class="stat-header">
+                            <span class="stat-title">AST (GOT)</span>
+                            <span class="info-trigger"
+                                data-tippy="Enzima hepática. Rango saludable: 10-40 U/L. Valores altos pueden indicar estrés hepático.">i</span>
                         </div>
-                        <div class="stat-value">17 <span style="font-size: 0.9rem; font-weight: 400;">U/L</span></div>
+                        <div class="stat-value">17</div>
                         <div class="stat-trend trend-down">↓ 86% vs Pico</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-label">ALT (GPT) <span class="info-icon"
-                                data-tooltip="Principal marcador hepático. Rango saludable: 7-56 U/L. Muy sensible a inflamación.">i</span>
+                    <div class="glass-card">
+                        <div class="stat-header">
+                            <span class="stat-title">ALT (GPT)</span>
+                            <span class="info-trigger"
+                                data-tippy="Principal marcador hepático. Rango saludable: 7-56 U/L. Muy sensible a inflamación.">i</span>
                         </div>
-                        <div class="stat-value">14 <span style="font-size: 0.9rem; font-weight: 400;">U/L</span></div>
+                        <div class="stat-value">14</div>
                         <div class="stat-trend trend-down">↓ 95% vs Pico</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-label">GGT <span class="info-icon"
-                                data-tooltip="Gama Glutamil Transferasa. Rango: 9-48 U/L. Indica obstrucción biliar o consumo alcohol.">i</span>
+                    <div class="glass-card">
+                        <div class="stat-header">
+                            <span class="stat-title">GGT</span>
+                            <span class="info-trigger"
+                                data-tippy="Gama Glutamil Transferasa. Rango: 9-48 U/L. Indica obstrucción biliar o consumo alcohol.">i</span>
                         </div>
-                        <div class="stat-value">36 <span style="font-size: 0.9rem; font-weight: 400;">U/L</span></div>
+                        <div class="stat-value">36</div>
                         <div class="stat-trend trend-down">↓ 95% vs Pico</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Bilirrubina Total<span class="info-icon"
-                                data-tooltip="Rango: 0.1-1.2 mg/dL. Valores altos causan ictericia (ojos/piel amarillos).">i</span>
+                    <div class="glass-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Bilirrubina</span>
+                            <span class="info-trigger"
+                                data-tippy="Rango: 0.1-1.2 mg/dL. Valores altos causan ictericia (ojos/piel amarillos).">i</span>
                         </div>
-                        <div class="stat-value">0.57 <span style="font-size: 0.9rem; font-weight: 400;">mg/dL</span>
-                        </div>
+                        <div class="stat-value">0.57</div>
                         <div class="stat-trend trend-down">↓ 94% vs Pico</div>
                     </div>
                 </div>
 
-                <div class="chart-container">
+                <div class="glass-card chart-box">
                     <div class="chart-header">
-                        <div class="chart-title">
-                            <h2>Tendencia de Enzimas Hepáticas</h2>
-                            <p>Evolución 2023 - 2025</p>
-                        </div>
+                        <h2>Tendencia de Enzimas Hepáticas</h2>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Evolución histórica y recuperación
+                            2023-2025</p>
                     </div>
                     <canvas id="liverChart"></canvas>
                 </div>
             </div>
 
             <!-- Lipids Tab -->
-            <div id="lipids" class="tab-content">
-                <div class="status-grid">
-                    <div class="stat-card">
-                        <div class="stat-label">Colesterol Total <span class="info-icon"
-                                data-tooltip="Rango saludable: < 200 mg/dL. Riesgo cardiovascular si es elevado.">i</span>
+            <div id="lipids" class="tab-pane">
+                <div class="stat-grid">
+                    <div class="glass-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Colesterol Total</span>
+                            <span class="info-trigger"
+                                data-tippy="Rango saludable: < 200 mg/dL. Riesgo cardiovascular si es elevado.">i</span>
                         </div>
-                        <div class="stat-value">198 <span style="font-size: 0.9rem; font-weight: 400;">mg/dL</span>
-                        </div>
+                        <div class="stat-value">198</div>
                         <div class="stat-trend trend-stable">Normal</div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Triglicéridos <span class="info-icon"
-                                data-tooltip="Grasas en sangre. Rango saludable: < 150 mg/dL. Elevado por dieta/estilo de vida.">i</span>
+                    <div class="glass-card">
+                        <div class="stat-header">
+                            <span class="stat-title">Triglicéridos</span>
+                            <span class="info-trigger"
+                                data-tippy="Grasas en sangre. Rango saludable: < 150 mg/dL. Elevado por dieta/estilo de vida.">i</span>
                         </div>
-                        <div class="stat-value">117 <span style="font-size: 0.9rem; font-weight: 400;">mg/dL</span>
-                        </div>
+                        <div class="stat-value">117</div>
                         <div class="stat-trend trend-down">Mejorado</div>
                     </div>
                 </div>
-                <div class="chart-container">
+                <div class="glass-card chart-box">
                     <canvas id="lipidChart"></canvas>
                 </div>
             </div>
 
             <!-- Hematology Tab -->
-            <div id="hematology" class="tab-content">
-                <div class="chart-container">
+            <div id="hematology" class="tab-pane">
+                <div class="glass-card chart-box">
                     <div class="chart-header">
-                        <div class="chart-title">
-                            <h2>Ferritina y Marcadores Inflamatorios</h2>
-                            <p>Respuesta de fase aguda</p>
-                        </div>
+                        <h2>Ferritina y Marcadores Inflamatorios</h2>
+                        <p style="color: var(--text-muted); font-size: 0.9rem;">Respuesta de fase aguda y evolución
+                            hematológica</p>
                     </div>
                     <canvas id="hemChart"></canvas>
                 </div>
             </div>
 
             <!-- Vitals Tab -->
-            <div id="vitals" class="tab-content">
-                <div class="grid-2">
-                    <div class="stat-card">
-                        <h2>Medicación Actual</h2>
-                        <ul style="margin-top:1rem; list-style:none;">
-                            <li
-                                style="padding:1rem; background: var(--primary-light); border-radius:12px; margin-bottom:1rem;">
-                                <strong>Ursobilane 300 mg</strong>
-                                <p style="font-size:0.8rem; color:var(--text-muted);">Tratamiento CBP / Colelitiasis</p>
-                            </li>
-                        </ul>
+            <div id="vitals" class="tab-pane">
+                <div class="stat-grid">
+                    <div class="glass-card medication-card">
+                        <h2 style="margin-bottom: 1.5rem;">Medicación Actual</h2>
+                        <div
+                            style="background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 18px; border: 1px solid rgba(255,255,255,0.1);">
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <div>
+                                    <p style="font-weight: 800; font-size: 1.1rem; color: var(--primary);">Ursobilane
+                                        300 mg</p>
+                                    <p style="font-size: 0.85rem; color: var(--text-muted);">Protocolo para CBP /
+                                        Colelitiasis</p>
+                                </div>
+                                <div class="tag"
+                                    style="background: rgba(139, 92, 246, 0.2); color: var(--primary); padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700;">
+                                    ACTIVO</div>
+                            </div>
+                        </div>
+                        <button class="btn-premium" style="width: 100%; margin-top: 1.5rem;">Ver Historial de
+                            Dosis</button>
                     </div>
-                    <div class="stat-card">
-                        <h2>Resumen Biométrico (Abril 2025)</h2>
-                        <div style="margin-top:1.5rem;">
-                            <p>Peso: 81.5 kg</p>
-                            <p>IMC: 25.72 (Sobrepeso)</p>
-                            <p>Tensión: 126/81 mmHg</p>
+                    <div class="glass-card">
+                        <h2 style="margin-bottom: 1.5rem;">Biometría (Abril 2025)</h2>
+                        <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--text-secondary);">Peso</span>
+                                <span style="font-weight: 700;">81.5 kg</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--text-secondary);">IMC</span>
+                                <span style="font-weight: 700; color: #f59e0b;">25.72 (Sobrepeso)</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span style="color: var(--text-secondary);">Tensión Arterial</span>
+                                <span style="font-weight: 700;">126/81 mmHg</span>
+                            </div>
                         </div>
                     </div>
                 </div>
