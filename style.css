@@ -368,12 +368,14 @@ body {
         width: 100% !important;
         flex-direction: row !important;
         padding: 0.5rem 1rem !important;
-        z-index: 1000;
+        z-index: 9999 !important;
         border-radius: 20px 20px 0 0;
         border-top: 1px solid rgba(139, 92, 246, 0.2);
         justify-content: center;
         gap: 0;
+        background: var(--sidebar-bg) !important;
     }
+
 
     .logo-area {
         display: none;
