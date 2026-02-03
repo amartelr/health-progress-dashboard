@@ -29,18 +29,20 @@ function switchTab(tabId) {
     document.querySelectorAll('.tab-pane').forEach(c => c.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
 
-    document.getElementById(tabId).classList.add('active');
+    const targetPane = document.getElementById(tabId);
+    if (targetPane) targetPane.classList.add('active');
 
-    // Select correct nav item
+    // Select correct nav item safely
     const navItems = document.querySelectorAll('.nav-item');
     navItems.forEach(item => {
-        if (item.getAttribute('onclick').includes(tabId)) {
+        const action = item.getAttribute('onclick');
+        if (action && action.includes(tabId)) {
             item.classList.add('active');
         }
     });
 
     // Small delay to ensure the tab is rendered (flex/block) before Chart.js calculates size
-    setTimeout(() => initCharts(tabId), 50);
+    setTimeout(() => initCharts(tabId), 100);
 }
 
 function initCharts(tabId) {
