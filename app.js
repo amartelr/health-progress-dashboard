@@ -36,6 +36,9 @@ Chart.defaults.plugins.legend.labels.padding = 16;
 
 // ========== TAB SWITCHING ==========
 function switchTab(tabId) {
+    // Scroll to top to prevent bottom navbar from being pushed out of view
+    window.scrollTo(0, 0);
+
     // Hide all tabs
     document.querySelectorAll('.tab-pane').forEach(pane => {
         pane.classList.remove('active');
