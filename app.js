@@ -18,12 +18,7 @@ const hemData = {
     hgb: [15.5, 15.2, 14.2, 12.6, 13.3, 16.2, 16.5]
 };
 
-let activeCharts = {};
-
-// Chart.js Global Overrides for Premium Dark Design
-Chart.defaults.color = '#94a3b8';
-Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.05)';
-Chart.defaults.font.family = "'Outfit', sans-serif";
+let currentChart = null;
 
 function switchTab(tabId) {
     document.querySelectorAll('.tab-pane').forEach(c => c.classList.remove('active'));
@@ -41,11 +36,18 @@ function switchTab(tabId) {
         }
     });
 
-    // Small delay to ensure the tab is rendered (flex/block) before Chart.js calculates size
-    setTimeout(() => initCharts(tabId), 100);
+    // Wait for display transition to finish
+    setTimeout(() => {
+        initCharts(tabId);
+    }, 250);
 }
 
 function initCharts(tabId) {
+    if (currentChart) {
+        currentChart.destroy();
+        currentChart = null;
+    }
+
     if (tabId === 'liver') createLiverChart();
     if (tabId === 'lipids') createLipidChart();
     if (tabId === 'hematology') createHemChart();
@@ -55,9 +57,8 @@ function createLiverChart() {
     const canvas = document.getElementById('liverChart');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    if (activeCharts.liver) activeCharts.liver.destroy();
 
-    activeCharts.liver = new Chart(ctx, {
+    currentChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: dates,
@@ -119,9 +120,8 @@ function createLipidChart() {
     const canvas = document.getElementById('lipidChart');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    if (activeCharts.lipids) activeCharts.lipids.destroy();
 
-    activeCharts.lipids = new Chart(ctx, {
+    currentChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: dates,
@@ -164,9 +164,8 @@ function createHemChart() {
     const canvas = document.getElementById('hemChart');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    if (activeCharts.hem) activeCharts.hem.destroy();
 
-    activeCharts.hem = new Chart(ctx, {
+    currentChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: dates,

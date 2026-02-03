@@ -253,6 +253,11 @@ body {
     min-height: 450px;
 }
 
+.chart-box canvas {
+    width: 100% !important;
+    height: 400px !important;
+}
+
 .chart-header {
     margin-bottom: 2rem;
 }
