@@ -84,10 +84,14 @@ function createLiverChart() {
                     callbacks: {
                         label: function (context) {
                             let label = context.dataset.label;
+                            let val = context.raw;
+                            let range = '';
+                            if (label.includes('AST')) range = ' (Ideal: 10-40)';
+                            if (label.includes('ALT')) range = ' (Ideal: 7-56)';
                             if (label === 'GGT (x10)') {
-                                return `GGT: ${liverData.ggt[context.dataIndex]} U/L`;
+                                return `GGT: ${liverData.ggt[context.dataIndex]} U/L (Ideal: 9-48)`;
                             }
-                            return `${label}: ${context.raw} U/L`;
+                            return `${label}: ${val}${range}`;
                         }
                     }
                 }

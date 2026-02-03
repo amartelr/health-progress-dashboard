@@ -203,3 +203,38 @@ canvas {
     flex-direction: column;
     gap: 2rem;
 }
+
+/* Tooltips */
+.info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 50%;
+    font-size: 10px;
+    font-weight: 800;
+    cursor: help;
+    margin-left: 6px;
+    position: relative;
+}
+
+.info-icon:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--text-dark);
+    color: white;
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    white-space: pre;
+    z-index: 1000;
+    width: 200px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
