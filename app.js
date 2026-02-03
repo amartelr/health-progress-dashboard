@@ -1,4 +1,6 @@
+// HealthProgress Premium - Clinical Dashboard
 // Data extracted from NotebookLM
+
 const dates = ['Feb 2023', 'Abr 2025', 'May 2025', 'Jun 04 2025', 'Jun 12 2025', 'Sep 2025', 'Dic 2025'];
 
 const liverData = {
@@ -18,47 +20,72 @@ const hemData = {
     hgb: [15.5, 15.2, 14.2, 12.6, 13.3, 16.2, 16.5]
 };
 
-let currentChart = null;
+// Chart storage by tab
+const charts = {
+    liver: null,
+    lipids: null,
+    hematology: null
+};
 
+// Chart.js Global Premium Dark Theme
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = 'rgba(255, 255, 255, 0.06)';
+Chart.defaults.font.family = "'Outfit', 'Inter', sans-serif";
+Chart.defaults.plugins.legend.labels.boxWidth = 12;
+Chart.defaults.plugins.legend.labels.padding = 16;
+
+// ========== TAB SWITCHING ==========
 function switchTab(tabId) {
-    document.querySelectorAll('.tab-pane').forEach(c => c.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+    // Hide all tabs
+    document.querySelectorAll('.tab-pane').forEach(pane => {
+        pane.classList.remove('active');
+    });
 
+    // Deactivate all nav items
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+
+    // Activate target tab
     const targetPane = document.getElementById(tabId);
-    if (targetPane) targetPane.classList.add('active');
+    if (targetPane) {
+        targetPane.classList.add('active');
+    }
 
-    // Select correct nav item safely
-    const navItems = document.querySelectorAll('.nav-item');
-    navItems.forEach(item => {
-        const action = item.getAttribute('onclick');
-        if (action && action.includes(tabId)) {
+    // Activate nav item
+    document.querySelectorAll('.nav-item').forEach(item => {
+        const onclick = item.getAttribute('onclick');
+        if (onclick && onclick.includes(tabId)) {
             item.classList.add('active');
         }
     });
 
-    // Wait for display transition to finish
-    setTimeout(() => {
-        initCharts(tabId);
-    }, 250);
+    // Initialize chart after CSS transition
+    requestAnimationFrame(() => {
+        setTimeout(() => createChart(tabId), 150);
+    });
 }
 
-function initCharts(tabId) {
-    if (currentChart) {
-        currentChart.destroy();
-        currentChart = null;
-    }
-
+// ========== CHART CREATION ==========
+function createChart(tabId) {
     if (tabId === 'liver') createLiverChart();
-    if (tabId === 'lipids') createLipidChart();
-    if (tabId === 'hematology') createHemChart();
+    else if (tabId === 'lipids') createLipidChart();
+    else if (tabId === 'hematology') createHemChart();
 }
 
 function createLiverChart() {
     const canvas = document.getElementById('liverChart');
     if (!canvas) return;
+
+    // Destroy existing chart if any
+    if (charts.liver) {
+        charts.liver.destroy();
+        charts.liver = null;
+    }
+
     const ctx = canvas.getContext('2d');
 
-    currentChart = new Chart(ctx, {
+    charts.liver = new Chart(ctx, {
         type: 'line',
         data: {
             labels: dates,
@@ -67,20 +94,25 @@ function createLiverChart() {
                     label: 'AST (GOT)',
                     data: liverData.ast,
                     borderColor: '#a78bfa',
-                    backgroundColor: 'rgba(167, 139, 250, 0.1)',
+                    backgroundColor: 'rgba(167, 139, 250, 0.15)',
                     borderWidth: 3,
                     tension: 0.4,
                     fill: true,
-                    pointRadius: 4
+                    pointRadius: 5,
+                    pointBackgroundColor: '#a78bfa',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 2
                 },
                 {
                     label: 'ALT (GPT)',
                     data: liverData.alt,
-                    borderColor: '#00f5ff',
+                    borderColor: '#22d3ee',
+                    backgroundColor: 'transparent',
                     borderWidth: 2,
                     tension: 0.4,
                     fill: false,
-                    pointRadius: 4
+                    pointRadius: 4,
+                    pointBackgroundColor: '#22d3ee'
                 }
             ]
         },
@@ -89,27 +121,32 @@ function createLiverChart() {
             maintainAspectRatio: false,
             interaction: { intersect: false, mode: 'index' },
             plugins: {
+                legend: { position: 'top' },
                 tooltip: {
-                    backgroundColor: '#1e1e2d',
+                    backgroundColor: 'rgba(20, 20, 27, 0.95)',
                     titleColor: '#fff',
                     bodyColor: '#94a3b8',
-                    padding: 12,
-                    borderColor: 'rgba(255,255,255,0.1)',
+                    padding: 14,
+                    cornerRadius: 12,
+                    borderColor: 'rgba(139, 92, 246, 0.3)',
                     borderWidth: 1,
                     callbacks: {
                         label: function (context) {
-                            let label = context.dataset.label;
-                            let val = context.raw;
+                            const label = context.dataset.label;
+                            const val = context.raw;
                             let range = '';
-                            if (label.includes('AST')) range = ' (Ideal: 10-40)';
-                            if (label.includes('ALT')) range = ' (Ideal: 7-56)';
+                            if (label.includes('AST')) range = ' (Ideal: 10-40 U/L)';
+                            if (label.includes('ALT')) range = ' (Ideal: 7-56 U/L)';
                             return `${label}: ${val} U/L${range}`;
                         }
                     }
                 }
             },
             scales: {
-                y: { grid: { color: 'rgba(255,255,255,0.05)', borderDash: [5, 5] } },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255,255,255,0.04)', borderDash: [4, 4] }
+                },
                 x: { grid: { display: false } }
             }
         }
@@ -119,9 +156,15 @@ function createLiverChart() {
 function createLipidChart() {
     const canvas = document.getElementById('lipidChart');
     if (!canvas) return;
+
+    if (charts.lipids) {
+        charts.lipids.destroy();
+        charts.lipids = null;
+    }
+
     const ctx = canvas.getContext('2d');
 
-    currentChart = new Chart(ctx, {
+    charts.lipids = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: dates,
@@ -129,14 +172,16 @@ function createLipidChart() {
                 {
                     label: 'Colesterol Total',
                     data: lipidData.col,
-                    backgroundColor: '#8b5cf6',
-                    borderRadius: 6
+                    backgroundColor: 'rgba(139, 92, 246, 0.8)',
+                    borderRadius: 6,
+                    barPercentage: 0.6
                 },
                 {
                     label: 'Triglicéridos',
                     data: lipidData.tri,
-                    backgroundColor: '#00f5ff',
-                    borderRadius: 6
+                    backgroundColor: 'rgba(34, 211, 238, 0.8)',
+                    borderRadius: 6,
+                    barPercentage: 0.6
                 }
             ]
         },
@@ -144,16 +189,21 @@ function createLipidChart() {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: { position: 'top', labels: { boxWidth: 12, padding: 20 } },
+                legend: { position: 'top' },
                 tooltip: {
-                    backgroundColor: '#1e1e2d',
+                    backgroundColor: 'rgba(20, 20, 27, 0.95)',
+                    padding: 14,
+                    cornerRadius: 12,
                     callbacks: {
-                        label: (c) => `${c.dataset.label}: ${c.raw} mg/dL (Ideal: < 200)`
+                        label: (ctx) => `${ctx.dataset.label}: ${ctx.raw} mg/dL (Ideal: < 200)`
                     }
                 }
             },
             scales: {
-                y: { grid: { color: 'rgba(255,255,255,0.05)', borderDash: [5, 5] } },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255,255,255,0.04)', borderDash: [4, 4] }
+                },
                 x: { grid: { display: false } }
             }
         }
@@ -163,9 +213,15 @@ function createLipidChart() {
 function createHemChart() {
     const canvas = document.getElementById('hemChart');
     if (!canvas) return;
+
+    if (charts.hematology) {
+        charts.hematology.destroy();
+        charts.hematology = null;
+    }
+
     const ctx = canvas.getContext('2d');
 
-    currentChart = new Chart(ctx, {
+    charts.hematology = new Chart(ctx, {
         type: 'line',
         data: {
             labels: dates,
@@ -173,11 +229,13 @@ function createHemChart() {
                 {
                     label: 'Ferritina (ng/mL)',
                     data: hemData.fer,
-                    borderColor: '#ef4444',
+                    borderColor: '#f87171',
+                    backgroundColor: 'rgba(248, 113, 113, 0.1)',
                     borderWidth: 3,
                     tension: 0.4,
-                    fill: false,
-                    pointRadius: 4
+                    fill: true,
+                    pointRadius: 5,
+                    pointBackgroundColor: '#f87171'
                 }
             ]
         },
@@ -186,16 +244,47 @@ function createHemChart() {
             maintainAspectRatio: false,
             plugins: {
                 legend: { position: 'top' },
-                tooltip: { backgroundColor: '#1e1e2d' }
+                tooltip: {
+                    backgroundColor: 'rgba(20, 20, 27, 0.95)',
+                    padding: 14,
+                    cornerRadius: 12,
+                    callbacks: {
+                        label: (ctx) => `${ctx.dataset.label}: ${ctx.raw} ng/mL (Normal: 30-300)`
+                    }
+                }
             },
             scales: {
-                y: { grid: { color: 'rgba(255,255,255,0.05)', borderDash: [5, 5] } },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255,255,255,0.04)', borderDash: [4, 4] }
+                },
                 x: { grid: { display: false } }
             }
         }
     });
 }
 
-window.onload = () => {
-    initCharts('liver');
-};
+// ========== TIPPY.JS POPOVERS ==========
+function initPopovers() {
+    tippy('[data-tippy]', {
+        content: (reference) => reference.getAttribute('data-tippy'),
+        theme: 'obsidian',
+        animation: 'shift-away',
+        placement: 'top',
+        arrow: true,
+        duration: [200, 150],
+        delay: [100, 0],
+        maxWidth: 280,
+        interactive: false,
+        allowHTML: true
+    });
+}
+
+// ========== INITIALIZATION ==========
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize charts for the default tab
+    createChart('liver');
+
+    // Initialize modern popovers
+    initPopovers();
+});
