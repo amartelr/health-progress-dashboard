@@ -455,7 +455,33 @@ body {
 
     #vitals .glass-card {
         width: 100%;
+        padding: 0.8rem !important;
     }
+
+    #vitals .glass-card h2 {
+        font-size: 1rem !important;
+        margin-bottom: 0.8rem !important;
+    }
+
+    #vitals .glass-card p {
+        font-size: 0.8rem !important;
+    }
+
+    #vitals .glass-card span {
+        font-size: 0.85rem !important;
+    }
+
+    #vitals .btn-premium {
+        padding: 0.6rem !important;
+        font-size: 0.8rem !important;
+        margin-top: 0.8rem !important;
+    }
+
+    /* Reduce inner padding in vitals cards */
+    #vitals .glass-card>div {
+        padding: 0.8rem !important;
+    }
+
 
     .glass-card {
         padding: 1rem;
