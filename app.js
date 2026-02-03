@@ -39,7 +39,8 @@ function switchTab(tabId) {
         }
     });
 
-    initCharts(tabId);
+    // Small delay to ensure the tab is rendered (flex/block) before Chart.js calculates size
+    setTimeout(() => initCharts(tabId), 50);
 }
 
 function initCharts(tabId) {
@@ -49,12 +50,10 @@ function initCharts(tabId) {
 }
 
 function createLiverChart() {
-    const ctx = document.getElementById('liverChart').getContext('2d');
+    const canvas = document.getElementById('liverChart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
     if (activeCharts.liver) activeCharts.liver.destroy();
-
-    const purpleGradient = ctx.createLinearGradient(0, 0, 0, 400);
-    purpleGradient.addColorStop(0, 'rgba(139, 92, 246, 0.2)');
-    purpleGradient.addColorStop(1, 'rgba(139, 92, 246, 0)');
 
     activeCharts.liver = new Chart(ctx, {
         type: 'line',
@@ -64,14 +63,11 @@ function createLiverChart() {
                 {
                     label: 'AST (GOT)',
                     data: liverData.ast,
-                    borderColor: '#8b5cf6',
+                    borderColor: '#a78bfa',
+                    backgroundColor: 'rgba(167, 139, 250, 0.1)',
                     borderWidth: 3,
                     tension: 0.4,
                     fill: true,
-                    backgroundColor: purpleGradient,
-                    pointBackgroundColor: '#8b5cf6',
-                    pointBorderColor: '#fff',
-                    pointBorderWidth: 2,
                     pointRadius: 4
                 },
                 {
@@ -81,7 +77,7 @@ function createLiverChart() {
                     borderWidth: 2,
                     tension: 0.4,
                     fill: false,
-                    pointRadius: 0
+                    pointRadius: 4
                 }
             ]
         },
@@ -110,7 +106,7 @@ function createLiverChart() {
                 }
             },
             scales: {
-                y: { grid: { borderDash: [5, 5] } },
+                y: { grid: { color: 'rgba(255,255,255,0.05)', borderDash: [5, 5] } },
                 x: { grid: { display: false } }
             }
         }
