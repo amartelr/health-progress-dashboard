@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthProgress - Alfredo Martel Revuelta</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
+                        stroke="currentColor" stroke-width="2" />
+                    <path d="M12 7V17M7 12H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                HealthProgress
+            </div>
+
+            <div class="patient-info">
+                <h3>Paciente</h3>
+                <p>Alfredo Martel Revuelta</p>
+                <p style="font-size: 0.8rem; color: var(--text-muted); font-weight: 400;">ID: AM-1967-07</p>
+            </div>
+
+            <ul class="nav-menu">
+                <li class="nav-item active" onclick="switchTab('liver')">Función Hepática</li>
+                <li class="nav-item" onclick="switchTab('lipids')">Perfil Lipídico</li>
+                <li class="nav-item" onclick="switchTab('hematology')">Hematología</li>
+                <li class="nav-item" onclick="switchTab('vitals')">Vitals & Meds</li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header-row">
+                <h1>Analytics Dashboard</h1>
+                <div style="font-size: 0.875rem; color: var(--text-muted);">
+                    Última actualización: 04/12/2025
+                </div>
+            </div>
+
+            <!-- Liver Tab -->
+            <div id="liver" class="tab-content active">
+                <div class="status-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">AST (GOT)</div>
+                        <div class="stat-value">17 <span style="font-size: 0.9rem; font-weight: 400;">U/L</span></div>
+                        <div class="stat-trend trend-down">↓ 86% vs Pico</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">ALT (GPT)</div>
+                        <div class="stat-value">14 <span style="font-size: 0.9rem; font-weight: 400;">U/L</span></div>
+                        <div class="stat-trend trend-down">↓ 95% vs Pico</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">GGT</div>
+                        <div class="stat-value">36 <span style="font-size: 0.9rem; font-weight: 400;">U/L</span></div>
+                        <div class="stat-trend trend-down">↓ 95% vs Pico</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Bilirrubina Total</div>
+                        <div class="stat-value">0.57 <span style="font-size: 0.9rem; font-weight: 400;">mg/dL</span>
+                        </div>
+                        <div class="stat-trend trend-down">↓ 94% vs Pico</div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <h2>Tendencia de Enzimas Hepáticas</h2>
+                            <p>Evolución 2023 - 2025</p>
+                        </div>
+                    </div>
+                    <canvas id="liverChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Lipids Tab -->
+            <div id="lipids" class="tab-content">
+                <div class="status-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Colesterol Total</div>
+                        <div class="stat-value">198 <span style="font-size: 0.9rem; font-weight: 400;">mg/dL</span>
+                        </div>
+                        <div class="stat-trend trend-stable">Normal</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Triglicéridos</div>
+                        <div class="stat-value">117 <span style="font-size: 0.9rem; font-weight: 400;">mg/dL</span>
+                        </div>
+                        <div class="stat-trend trend-down">Mejorado</div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="lipidChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Hematology Tab -->
+            <div id="hematology" class="tab-content">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <h2>Ferritina y Marcadores Inflamatorios</h2>
+                            <p>Respuesta de fase aguda</p>
+                        </div>
+                    </div>
+                    <canvas id="hemChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Vitals Tab -->
+            <div id="vitals" class="tab-content">
+                <div class="grid-2">
+                    <div class="stat-card">
+                        <h2>Medicación Actual</h2>
+                        <ul style="margin-top:1rem; list-style:none;">
+                            <li
+                                style="padding:1rem; background: var(--primary-light); border-radius:12px; margin-bottom:1rem;">
+                                <strong>Ursobilane 300 mg</strong>
+                                <p style="font-size:0.8rem; color:var(--text-muted);">Tratamiento CBP / Colelitiasis</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="stat-card">
+                        <h2>Resumen Biométrico (Abril 2025)</h2>
+                        <div style="margin-top:1.5rem;">
+                            <p>Peso: 81.5 kg</p>
+                            <p>IMC: 25.72 (Sobrepeso)</p>
+                            <p>Tensión: 126/81 mmHg</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
