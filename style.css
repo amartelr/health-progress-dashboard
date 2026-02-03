@@ -358,13 +358,15 @@ body {
     }
 
     .sidebar {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: auto;
-        flex-direction: row;
-        padding: 0.5rem 1rem;
+        position: fixed !important;
+        bottom: 0 !important;
+        top: auto !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: auto !important;
+        width: 100% !important;
+        flex-direction: row !important;
+        padding: 0.5rem 1rem !important;
         z-index: 1000;
         border-radius: 20px 20px 0 0;
         border-top: 1px solid rgba(139, 92, 246, 0.2);
